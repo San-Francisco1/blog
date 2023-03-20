@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Article;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -24,9 +25,9 @@ class ArticleFactory extends Factory
             'title' => $title,
             'body' => $this->faker->paragraph(100, true),//рандомный текст из 100 случайных сообщений
             'slug' => $slug,
-            'img' => 'https://placehold.co/800@2x.png',
+            'img' => 'https://placehold.co/400@2x.png',
             'created_at' => $this->faker->dateTimeBetween('-1 years'),
-            //
+            'published_at' => Carbon::now(),
         ];
     }
 }
