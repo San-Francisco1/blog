@@ -16,7 +16,7 @@
                 @endforeach
             </p>
             <p class="card-text">{{$article->body}}</p>
-            <p>Опубликовано:  <i>{{$article->publishedAtForHumans()}}</i> </p>
+            <p>Опубликовано:  <i>{{$article->createdAtForHumans()}}</i> </p>
             <div class="mt-3">
                 <span class="badge bg-primary">{{$article->state->likes}} <i class="far fa-thumbs-up"></i> </span>
                 <span class="badge bg-danger">{{$article->state->views}} <i class="far fa-eye"></i> </span>

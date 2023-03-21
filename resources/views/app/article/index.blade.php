@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{$article->title}}</h5>
                         <p class="card-text">{{$article->getBodyPreview()}}</p>
-                        <p>{{$article->publishedAtForHumans()}}</p>
+                        <p>{{$article->createdAtForHumans()}}</p>
                         <a href="{{route('article.show',$article->slug)}}" class="btn btn-primary">Подробнее</a>
                         <div class="mt-3">
                             <span class="badge bg-primary">{{$article->state->likes}} <i class="far fa-thumbs-up"></i></span>

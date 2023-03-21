@@ -27,7 +27,6 @@ class ArticleFactory extends Factory
             'slug' => $slug,
             'img' => 'https://placehold.co/400@2x.png',
             'created_at' => $this->faker->dateTimeBetween('-1 years'),
-            'published_at' => Carbon::now(),
         ];
     }
 }
