@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         article: {
+            id: 0,
             comments: [],
             tags: [],
             state: {
@@ -15,6 +16,7 @@ export default new Vuex.Store({
         },
         slug: '',
         likeIt: true,
+        commentSuccess: false,
     },
 
     actions: {
@@ -42,6 +44,13 @@ export default new Vuex.Store({
                 console.log('Error add likes');
             });
         },
+        addComment(context, payload) {
+            axios.post('/api/article-add-comment', {subject:payload.subject, body:payload.body, article_id:payload.article_id}).then((response) => {
+                context.commit('SET_COMMENT_SUCCESS', !context.state.commentSuccess);
+            }).catch(() => {
+                console.log('Error add comment');
+            });
+        },
 
     },
 
@@ -64,5 +73,8 @@ export default new Vuex.Store({
         SET_LIKE(state, payload) {
             return state.likeIt = payload;
         },
+        SET_COMMENT_SUCCESS(state, payload) {
+            return state.commentSuccess = payload;
+        }
     }
 })

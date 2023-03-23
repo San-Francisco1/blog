@@ -5,19 +5,24 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
+use App\Services\ArticleService;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
+    protected $service;
+
+    public function __construct(ArticleService $service) {
+        $this->service = $service;
+    }
+
     public function show(Request $request) {
-        $slug = $request->get('slug');
-        $article = Article::findBySlug($slug);
+        $article = $this->service->getArticleBySlug($request);
         return new ArticleResource($article);
     }
 
     public function likesIncrement(Request $request) {
-        $slug = $request->get('slug');
-        $article = Article::findBySlug($slug);
+        $article = $this->service->getArticleBySlug($request);
 
         $inc = $request->get('increment');
         $inc ? $article->state->increment('likes') : $article->state->decrement('likes');
@@ -25,8 +30,7 @@ class ArticleController extends Controller
     }
 
     public function viewsIncrement(Request $request) {
-        $slug = $request->get('slug');
-        $article = Article::findBySlug($slug);
+        $article = $this->service->getArticleBySlug($request);
 
         $article->state->increment('views');
         return new ArticleResource($article);
