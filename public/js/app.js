@@ -1799,7 +1799,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _ViewsComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ViewsComponent.vue */ "./resources/js/components/ViewsComponent.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 //
 //
 //
@@ -1824,17 +1824,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {
-    ViewsComponent: _ViewsComponent_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
-  computed: {
-    article: function article() {
-      return this.$store.state.article;
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
+    article: function article(state) {
+      return state.article.article;
     },
-    tagsLen: function tagsLen() {
-      return this.$store.state.article.tags.length;
+    tagsLen: function tagsLen(state) {
+      return state.article.article.tags.length;
     }
-  },
+  }),
   mounted: function mounted() {
     console.log('Component article mounted.');
   }
@@ -1900,26 +1897,26 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     comments: function comments() {
-      return this.$store.state.article.comments;
+      return this.$store.state.article.article.comments;
     },
     commentSuccess: function commentSuccess() {
-      return this.$store.state.commentSuccess;
+      return this.$store.state.article.commentSuccess;
     },
     errorMessage: function errorMessage() {
-      return this.$store.state.errors;
+      return this.$store.state.article.errors;
     }
   },
   methods: {
     submit_form: function submit_form() {
-      this.$store.dispatch('addComment', {
+      this.$store.dispatch('article/addComment', {
         subject: this.subject,
         body: this.body,
-        article_id: this.$store.state.article.id
+        article_id: this.$store.state.article.article.id
       });
     }
   },
   mounted: function mounted() {
-    console.log("Component mounted");
+    console.log("Comments component mounted");
   }
 });
 
@@ -1936,23 +1933,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 //
 //
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: {
+  computed: _objectSpread({
     isLike: function isLike() {
-      return this.$store.state.likeIt;
-    },
-    likes: function likes() {
-      return this.$store.getters.articleLikes;
+      return this.$store.state.article.likeIt;
     }
-  },
+  }, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)('article', ['articleLikes'])),
   methods: {
     addLike: function addLike() {
-      this.$store.dispatch('addLike', {
+      this.$store.dispatch('article/addLike', {
         slug: this.$store.state.slug,
         increment: this.isLike
       });
@@ -1984,7 +1986,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: {
     views: function views() {
-      return this.$store.getters.articleViews;
+      return this.$store.getters['article/articleViews'];
     }
   },
   mounted: function mounted() {
@@ -2019,8 +2021,8 @@ var app = new Vue({
     var url = window.location.pathname;
     var slug = url.substring(url.lastIndexOf('/') + 1);
     this.$store.commit('SET_SLUG', slug);
-    this.$store.dispatch('getArticleData', slug);
-    this.$store.dispatch('viewsIncrement', slug);
+    this.$store.dispatch('article/getArticleData', slug);
+    this.$store.dispatch('article/viewsIncrement', slug);
   }
 });
 
@@ -2037,99 +2039,134 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _modules_article_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/article.js */ "./resources/js/store/modules/article.js");
 
 
-vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
+
+vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
+  modules: {
+    article: _modules_article_js__WEBPACK_IMPORTED_MODULE_0__
+  },
   state: {
-    article: {
-      id: 0,
-      comments: [],
-      tags: [],
-      state: {
-        likes: 0,
-        views: 0
-      }
-    },
-    slug: '',
-    likeIt: true,
-    commentSuccess: false,
-    errors: []
+    slug: ''
   },
-  actions: {
-    getArticleData: function getArticleData(context, payload) {
-      axios.get('/api/article.json', {
-        params: {
-          slug: payload
-        }
-      }).then(function (response) {
-        context.commit('SET_ARTICLE', response.data.data);
-      })["catch"](function () {
-        console.log('Error');
-      });
-    },
-    viewsIncrement: function viewsIncrement(context, payload) {
-      setTimeout(function () {
-        axios.put('/api/article-views-increment', {
-          slug: payload
-        }).then(function (response) {
-          context.commit('SET_ARTICLE', response.data.data);
-        })["catch"](function () {
-          console.log('Error views increment');
-        });
-      }, 5000);
-    },
-    addLike: function addLike(context, payload) {
-      axios.put('/api/article-likes-increment', {
-        slug: payload.slug,
-        increment: payload.increment
-      }).then(function (response) {
-        context.commit('SET_ARTICLE', response.data.data);
-        context.commit('SET_LIKE', !context.state.likeIt);
-      })["catch"](function () {
-        console.log('Error add likes');
-      });
-    },
-    addComment: function addComment(context, payload) {
-      axios.post('/api/article-add-comment', {
-        subject: payload.subject,
-        body: payload.body,
-        article_id: payload.article_id
-      }).then(function (response) {
-        context.commit('SET_COMMENT_SUCCESS', !context.state.commentSuccess);
-        context.dispatch('getArticleData', context.state.slug);
-      })["catch"](function (error) {
-        if (error.response.status === 422) {
-          context.state.errors = error.response.data.errors;
-        }
-      });
-    }
-  },
+  actions: {},
   getters: {
-    articleViews: function articleViews(state) {
-      return state.article.state.views;
-    },
-    articleLikes: function articleLikes(state) {
-      return state.article.state.likes;
+    articleSlugRevers: function articleSlugRevers(state) {
+      return state.slug.split('').reverse().join('');
     }
   },
   mutations: {
-    SET_ARTICLE: function SET_ARTICLE(state, payload) {
-      return state.article = payload;
-    },
     SET_SLUG: function SET_SLUG(state, payload) {
       return state.slug = payload;
-    },
-    SET_LIKE: function SET_LIKE(state, payload) {
-      return state.likeIt = payload;
-    },
-    SET_COMMENT_SUCCESS: function SET_COMMENT_SUCCESS(state, payload) {
-      return state.commentSuccess = payload;
     }
   }
 }));
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/article.js":
+/*!***********************************************!*\
+  !*** ./resources/js/store/modules/article.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "actions": () => (/* binding */ actions),
+/* harmony export */   "getters": () => (/* binding */ getters),
+/* harmony export */   "mutations": () => (/* binding */ mutations),
+/* harmony export */   "namespaced": () => (/* binding */ namespaced),
+/* harmony export */   "state": () => (/* binding */ state)
+/* harmony export */ });
+var namespaced = true;
+var state = {
+  article: {
+    id: 0,
+    comments: [],
+    tags: [],
+    state: {
+      likes: 0,
+      views: 0
+    }
+  },
+  slug: '',
+  likeIt: true,
+  commentSuccess: false,
+  errors: []
+};
+var actions = {
+  getArticleData: function getArticleData(context, payload) {
+    axios.get('/api/article.json', {
+      params: {
+        slug: payload
+      }
+    }).then(function (response) {
+      context.commit('SET_ARTICLE', response.data.data);
+    })["catch"](function () {
+      console.log('Error getArticleData');
+    });
+  },
+  viewsIncrement: function viewsIncrement(context, payload) {
+    setTimeout(function () {
+      axios.put('/api/article-views-increment', {
+        slug: payload
+      }).then(function (response) {
+        context.commit('SET_ARTICLE', response.data.data);
+      })["catch"](function () {
+        console.log('Error views increment');
+      });
+    }, 5000);
+  },
+  addLike: function addLike(context, payload) {
+    axios.put('/api/article-likes-increment', {
+      slug: payload.slug,
+      increment: payload.increment
+    }).then(function (response) {
+      context.commit('SET_ARTICLE', response.data.data);
+      context.commit('SET_LIKE', !context.state.likeIt);
+    })["catch"](function () {
+      console.log('Error add likes');
+    });
+  },
+  addComment: function addComment(context, payload) {
+    axios.post('/api/article-add-comment', {
+      subject: payload.subject,
+      body: payload.body,
+      article_id: payload.article_id
+    }).then(function (response) {
+      context.commit('SET_COMMENT_SUCCESS', !context.commentSuccess);
+      context.dispatch('getArticleData', context.rootState.slug);
+    })["catch"](function (error) {
+      if (error.response.status === 422) {
+        context.state.errors = error.response.data.errors;
+      }
+    });
+  }
+};
+var getters = {
+  articleViews: function articleViews(state) {
+    return state.article.state.views;
+  },
+  articleLikes: function articleLikes(state) {
+    return state.article.state.likes;
+  }
+};
+var mutations = {
+  SET_ARTICLE: function SET_ARTICLE(state, payload) {
+    return state.article = payload;
+  },
+  SET_LIKE: function SET_LIKE(state, payload) {
+    return state.likeIt = payload;
+  },
+  SET_COMMENT_SUCCESS: function SET_COMMENT_SUCCESS(state, payload) {
+    return state.commentSuccess = payload;
+  }
+};
 
 /***/ }),
 
@@ -20550,7 +20587,7 @@ var render = function () {
       },
     },
     [
-      _vm._v(_vm._s(_vm.likes) + " "),
+      _vm._v(_vm._s(_vm.articleLikes) + " "),
       _c("i", { staticClass: "far fa-thumbs-up" }),
     ]
   )

@@ -18,7 +18,7 @@ class Article extends Model
     ];
 
     public function comments() {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->latest();
     }
 
     public function state() {
@@ -46,7 +46,11 @@ class Article extends Model
     }
 
     public function scopeFindBySlug($query, $slug) {
-        return $query->with('comments', 'state', 'tags')->where('slug', $slug)->firstOrFail();
+        return $query
+            ->with('comments', 'state', 'tags')
+            ->where('slug', $slug)
+            ->firstOrFail();
+
     }
 
     public function scopeFindByTag($query, $numbers) {

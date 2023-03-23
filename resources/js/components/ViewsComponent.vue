@@ -6,7 +6,7 @@
 export default {
     computed: {
         views() {
-            return this.$store.getters.articleViews;
+            return this.$store.getters['article/articleViews'];
         }
     },
     mounted(){
