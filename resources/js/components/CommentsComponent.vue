@@ -4,17 +4,23 @@
             <div class="mb-3">
                 <label for="commentSubject" class="form-label">Тема комментария</label>
                 <input type="text" class="form-control" id="commentSubject" v-model="subject">
+                <div class="alert alert-warning" role="alert" v-if="errorMessage.subject">
+                    {{errorMessage.subject[0]}}
+                </div>
             </div>
             <div class="mb-3">
                 <label for="commentBody" class="form-label">Комментарий</label>
                 <textarea class="form-control" id="commentBody" rows="3" v-model="body"></textarea>
+                <div class="alert alert-warning" role="alert" v-if="errorMessage.body">
+                    {{errorMessage.body[0]}}
+                </div>
             </div>
             <button class="btn btn-success" type="submit">Отправить</button>
         </form>
         <div class="alert alert-success" role="alert" v-else>
             Комментарий успешно отправлен!
         </div>
-        <div class="my_toast-container pb-5 mt-5 mx-auto" style="min-width: 100%;" v-for="comment in comments">
+        <div class="my_toast-container pb-1 mt-1 mx-auto" style="min-width: 100%;" v-for="comment in comments">
             <div class="my_toast showing" style="min-width: 100%;">
                 <div class="my_toast-header">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/59/User-avatar.svg" class="rounded me-2" alt="...">
@@ -42,8 +48,11 @@ export default {
             return this.$store.state.article.comments;
         },
         commentSuccess() {
-            return this.$store.state.article.commentSuccess;
-        }
+            return this.$store.state.commentSuccess;
+        },
+        errorMessage() {
+            return this.$store.state.errors;
+        },
     },
     methods: {
         submit_form() {

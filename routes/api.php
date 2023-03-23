@@ -26,3 +26,7 @@ Route::put('article-likes-increment', [ArticleController::class, 'likesIncrement
 Route::put('article-views-increment', [ArticleController::class, 'viewsIncrement']);
 
 Route::post('article-add-comment', [CommentController::class, 'store']);
+
+Route::fallback(function () {
+    abort(404);
+});

@@ -17,6 +17,7 @@ export default new Vuex.Store({
         slug: '',
         likeIt: true,
         commentSuccess: false,
+        errors: [],
     },
 
     actions: {
@@ -47,8 +48,11 @@ export default new Vuex.Store({
         addComment(context, payload) {
             axios.post('/api/article-add-comment', {subject:payload.subject, body:payload.body, article_id:payload.article_id}).then((response) => {
                 context.commit('SET_COMMENT_SUCCESS', !context.state.commentSuccess);
-            }).catch(() => {
-                console.log('Error add comment');
+                context.dispatch('getArticleData', context.state.slug);
+            }).catch((error) => {
+                if(error.response.status === 422) {
+                    context.state.errors = error.response.data.errors;
+                }
             });
         },
 
